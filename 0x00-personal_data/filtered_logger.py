@@ -23,4 +23,6 @@ def filter_datum(fields: List[str], redaction: str,
         key_value = data.split('=')
         if key_value[0] in fields:
             message = re.sub(key_value[1], redaction, message)
+
+            
     return message

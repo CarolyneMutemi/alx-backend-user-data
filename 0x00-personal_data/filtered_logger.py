@@ -2,11 +2,12 @@
 """
 Module with filter_datum function.
 """
+import os
 import re
 from typing import List
 import logging
 from mysql.connector import connection
-import os
+
 
 PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
 
@@ -71,7 +72,7 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db():
+def get_db() -> connection.MySQLConnection:
     """
     Returns a connector to the database
     """

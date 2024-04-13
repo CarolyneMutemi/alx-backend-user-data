@@ -25,12 +25,9 @@ def filter_datum(fields: List[str], redaction: str,
     Return:
         The log message string is returned with the obfuscated fields.
     """
-    for data in message.split(separator):
-        key_value = data.split('=')
-        if key_value[0] in fields:
-            message = re.sub(key_value[1], redaction, message)
+    for field in fields:
+        message = re.sub(rf"{field}=(.*?){separator}", f"{field}={redaction}{separator}", message)
     return message
-
 
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class

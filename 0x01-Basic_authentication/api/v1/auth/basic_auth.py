@@ -3,6 +3,7 @@
 Basic auth.
 """
 import base64
+import binascii
 import re
 from api.v1.auth.auth import Auth
 
@@ -28,17 +29,18 @@ class BasicAuth(Auth):
                                            base64_authorization_header:
                                            str) -> str:
         """
-        Returns the decoded value of a Base64 string base64_authorization_header.
+        Returns the decoded value of a Base64 string
+        base64_authorization_header.
         """
         if not base64_authorization_header or not isinstance(
                 base64_authorization_header, str):
             return None
         try:
             decoded_string = base64.b64decode(base64_authorization_header)
-        except:
+        except binascii.Error:
             return None
         return decoded_string.decode('utf-8')
-    
+
     def extract_user_credentials(self,
                                  decoded_base64_authorization_header:
                                  str) -> (str, str):

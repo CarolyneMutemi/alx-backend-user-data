@@ -16,6 +16,7 @@ user.password = user_clear_pwd
 print("New user: {}".format(user.display_name()))
 user.save()
 
+
 """ Retreive this user via the class BasicAuth """
 
 a = BasicAuth()

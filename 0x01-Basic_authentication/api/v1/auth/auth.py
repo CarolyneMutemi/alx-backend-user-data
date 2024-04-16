@@ -4,6 +4,7 @@ API authentication.
 """
 from flask import request
 from typing import List, TypeVar
+import re
 
 
 class Auth:
@@ -19,6 +20,9 @@ class Auth:
             return True
         if path[-1] != '/':
             path += '/'
+        for excluded_path in excluded_paths:
+            if re.search(excluded_path, path):
+                return False
         if path not in excluded_paths:
             return True
         return False

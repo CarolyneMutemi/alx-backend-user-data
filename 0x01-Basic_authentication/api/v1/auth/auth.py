@@ -21,10 +21,12 @@ class Auth:
         if path[-1] != '/':
             path += '/'
         for excluded_path in excluded_paths:
-            if re.search(excluded_path, path):
+            pattern = excluded_path.replace('*', '.*')
+            if re.search(pattern, path):
                 return False
         if path not in excluded_paths:
             return True
+        print("Past")
         return False
 
     def authorization_header(self, request=None) -> str:

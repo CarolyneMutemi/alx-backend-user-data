@@ -8,6 +8,7 @@ import re
 from typing import TypeVar
 from api.v1.auth.auth import Auth
 from models.user import User
+from models.base import DATA
 
 
 class BasicAuth(Auth):
@@ -70,6 +71,8 @@ class BasicAuth(Auth):
         if not user_email or not isinstance(user_email, str):
             return None
         if not user_pwd or not isinstance(user_pwd, str):
+            return None
+        if len(DATA) == 0:
             return None
         user_list = User.search({'email': user_email})
         if len(user_list) == 0:

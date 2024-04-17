@@ -5,16 +5,16 @@ import uuid
 from api.v1.auth.basic_auth import BasicAuth
 from models.user import User
 
-""" Create a user test """
-user_email = str(uuid.uuid4())
-user_clear_pwd = str(uuid.uuid4())
-user = User()
-user.email = user_email
-user.first_name = "Bob"
-user.last_name = "Dylan"
-user.password = user_clear_pwd
-print("New user: {}".format(user.display_name()))
-user.save()
+#""" Create a user test """
+#user_email = str(uuid.uuid4())
+#user_clear_pwd = str(uuid.uuid4())
+#user = User()
+#user.email = user_email
+#user.first_name = "Bob"
+#user.last_name = "Dylan"
+#user.password = user_clear_pwd
+#print("New user: {}".format(user.display_name()))
+#user.save()
 
 
 """ Retreive this user via the class BasicAuth """
@@ -30,8 +30,8 @@ print(u.display_name() if u is not None else "None")
 u = a.user_object_from_credentials("email@notfound.com", "pwd")
 print(u.display_name() if u is not None else "None")
 
-u = a.user_object_from_credentials(user_email, "pwd")
+u = a.user_object_from_credentials("acr@gmail.com", "pwd")
 print(u.display_name() if u is not None else "None")
 
-u = a.user_object_from_credentials(user_email, user_clear_pwd)
+u = a.user_object_from_credentials("acr@gmail.com", "pwdwe")
 print(u.display_name() if u is not None else "None")

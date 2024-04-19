@@ -4,6 +4,7 @@ Saving sessions in database.
 """
 from datetime import datetime, timedelta
 from uuid import uuid4
+from models.base import DATA
 from models.user_session import UserSession
 from api.v1.auth.session_exp_auth import SessionExpAuth
 
@@ -31,6 +32,8 @@ class SessionDBAuth(SessionExpAuth):
         """
         if not session_id or not isinstance(session_id, str):
             return None
+        if 'UserSession' not in DATA:
+            return None
         user_session_list = UserSession.search({'session_id': session_id})
         if len(user_session_list) == 0:
             return None
@@ -41,10 +44,11 @@ class SessionDBAuth(SessionExpAuth):
         if created_at is None:
             return None
         expire_time = created_at + timedelta(seconds=self.session_duration)
-        if expire_time < datetime.now():
+        if expire_time < datetime.utcnow():
+            UserSession.remove(user_session)
             return None
         return user_session.user_id
-    
+
     def destroy_session(self, request=None):
         """
         Destroys a session.

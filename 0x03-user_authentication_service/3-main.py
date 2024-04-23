@@ -32,5 +32,5 @@ try:
     print(user.hashed_password)
 except NoResultFound:
     print("Error occurred")
-#usr = my_db.find_user_by(id=user.id)
-#print(usr.hashed_password)
+usr = my_db.find_user_by(hashed_password='NewPwd')
+print(usr.hashed_password)

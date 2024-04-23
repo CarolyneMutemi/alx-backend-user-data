@@ -59,7 +59,7 @@ class DB:
             return result
         raise InvalidRequestError
 
-    def update_user(self, user_id: int, **kwargs):
+    def update_user(self, user_id: int, **kwargs) -> None:
         """
         Takes in a user_id and updates the user's attributes with given kwargs.
         """

@@ -58,3 +58,14 @@ class DB:
                 raise NoResultFound
             return result
         raise InvalidRequestError
+
+    def update_user(self, user_id: int, **kwargs):
+        """
+        Takes in a user_id and updates the user's attributes with given kwargs.
+        """
+        user = self.find_user_by(id=user_id)
+        for key, item in kwargs.items():
+            if key not in user.__dict__:
+                raise ValueError
+            user.__dict__[f'{key}'] = item
+            self.__session.commit()

@@ -17,8 +17,20 @@ hashed_password = "hashedPwd"
 user = my_db.add_user(email, hashed_password)
 print(user.id)
 
+print("\n\n######################################################\n\n")
+
 try:
     my_db.update_user(user.id, hashed_password='NewPwd')
     print("Password updated")
 except ValueError:
     print("Error")
+
+print("\n\n######################################################\n\n")
+
+try:
+    user = my_db.find_user_by(hashed_password='NewPwd')
+    print(user.hashed_password)
+except NoResultFound:
+    print("Error occurred")
+#usr = my_db.find_user_by(id=user.id)
+#print(usr.hashed_password)

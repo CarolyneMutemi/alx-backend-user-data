@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """
+User module.
 Creates SQLAlchemy model named User for a database table named users.
 """
 from sqlalchemy.ext.declarative import declarative_base

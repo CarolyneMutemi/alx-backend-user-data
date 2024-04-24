@@ -5,11 +5,9 @@ App module.
 from flask import Flask, jsonify, request, abort
 from flask import make_response, redirect, url_for
 from auth import Auth
-from db import DB
 
 app = Flask(__name__)
 AUTH = Auth()
-DATABASE = DB()
 
 
 @app.route('/', methods=['GET'])
@@ -44,15 +42,14 @@ def login():
     if not AUTH.valid_login(email, password):
         abort(401)
     session_id = AUTH.create_session(email)
-    user = DATABASE.find_user_by(session_id=session_id)
-    response = make_response(jsonify({"email": user.email,
+    response = make_response(jsonify({"email": email,
                                       "message": "logged in"}))
     response.set_cookie('session_id', session_id)
     return response
 
 
 @app.route('/sessions', methods=['DELETE'], strict_slashes=False)
-def logout() -> str:
+def logout():
     """
     Logs out a user.
     """

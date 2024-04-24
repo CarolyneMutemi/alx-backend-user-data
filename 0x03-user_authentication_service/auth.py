@@ -98,5 +98,5 @@ class Auth:
             reset_token = str(uuid4())
             user.reset_token = reset_token
             return reset_token
-        except NoResultFound:
-            raise ValueError
+        except NoResultFound as error:
+            raise ValueError from error

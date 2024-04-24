@@ -2,7 +2,8 @@
 """
 App module.
 """
-from flask import Flask, jsonify, request, abort, make_response
+from flask import Flask, jsonify, request, abort
+from flask import make_response, redirect, url_for
 from auth import Auth
 from db import DB
 
@@ -48,6 +49,21 @@ def login():
                                       "message": "logged in"}))
     response.set_cookie('session_id', session_id)
     return response
+
+
+@app.route('/sessions', methods=['DELETE'], strict_slashes=False)
+def logout():
+    """
+    Logs out a user.
+    """
+    session_id = request.cookies.get('session_id')
+    print(session_id)
+    user = AUTH.get_user_from_session_id(session_id)
+    print(f'User: {user}')
+    if user:
+        AUTH.destroy_session(user_id=user.id)
+        return redirect(url_for('index'))
+    abort(403)
 
 
 if __name__ == "__main__":

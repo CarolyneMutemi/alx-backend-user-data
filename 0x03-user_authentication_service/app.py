@@ -2,11 +2,13 @@
 """
 App module.
 """
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, abort
 from auth import Auth
+from db import DB
 
 app = Flask(__name__)
 AUTH = Auth()
+DATABASE = DB()
 
 
 @app.route('/', methods=['GET'])
@@ -31,5 +33,19 @@ def users():
         return jsonify({"message": "email already registered"}), 400
 
 
+@app.route('/sessions', methods=['POST'], strict_slashes=False)
+def login():
+    """
+    Log in page.
+    """
+    email = request.form.get('email')
+    password = request.form.get('password')
+    if not AUTH.valid_login(email, password):
+        abort(401)
+    session_id = AUTH.create_session(email)
+    user = DATABASE.find_user_by(session_id=session_id)
+    return jsonify({"email": f"{user.email}", "message": "logged in"})
+
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="5000")
+    app.run(host="0.0.0.0", port="5000", debug=True)

@@ -62,7 +62,7 @@ def logout():
 
 
 @app.route('/profile', strict_slashes=False)
-def profile() -> str:
+def profile():
     """
     Gets a user's profile.
     """
@@ -74,4 +74,4 @@ def profile() -> str:
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="5000")
+    app.run(host="0.0.0.0", port="5000", debug=True)

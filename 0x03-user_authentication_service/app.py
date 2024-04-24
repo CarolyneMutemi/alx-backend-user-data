@@ -2,7 +2,7 @@
 """
 App module.
 """
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, make_response
 from auth import Auth
 from db import DB
 
@@ -28,7 +28,7 @@ def users():
     password = request.form.get('password')
     try:
         user = AUTH.register_user(email=email, password=password)
-        return jsonify({"email": f"{user.email}", "message": "user created"})
+        return jsonify({"email": user.email, "message": "user created"})
     except ValueError:
         return jsonify({"message": "email already registered"}), 400
 
@@ -44,8 +44,11 @@ def login():
         abort(401)
     session_id = AUTH.create_session(email)
     user = DATABASE.find_user_by(session_id=session_id)
-    return jsonify({"email": f"{user.email}", "message": "logged in"})
+    response = make_response(jsonify({"email": user.email,
+                                      "message": "logged in"}))
+    response.set_cookie('session_id', session_id)
+    return response
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="5000")
+    app.run(host="0.0.0.0", port="5000", debug=True)

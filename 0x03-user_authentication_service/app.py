@@ -57,13 +57,11 @@ def logout():
     Logs out a user.
     """
     session_id = request.cookies.get('session_id')
-    print(session_id)
     user = AUTH.get_user_from_session_id(session_id)
-    print(f'User: {user}')
-    if user:
-        AUTH.destroy_session(user_id=user.id)
-        return redirect(url_for('index'))
-    abort(403)
+    if not user:
+        abort(403)
+    AUTH.destroy_session(user_id=user.id)
+    return redirect(url_for('index'))
 
 
 if __name__ == "__main__":
